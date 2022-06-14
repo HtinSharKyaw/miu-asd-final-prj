@@ -1,5 +1,6 @@
 package banking.application.framework.models;
 
+import banking.application.banking.strategy.AccountInterestStrategy;
 import banking.application.framework.enums.AccountType;
 
 import java.util.ArrayList;

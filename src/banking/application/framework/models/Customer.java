@@ -1,14 +1,18 @@
 package banking.application.framework.models;
 
+import java.util.Date;
+
 public class Customer {
     private String name;
     private String email;
-    private String address;
+    private Address address;
+    private Date birthDate;
 
-    public Customer(String name, String email, String address) {
+    public Customer(String name, String email, Address address, Date birthDate) {
         this.name = name;
         this.email = email;
         this.address = address;
+        this.birthDate = birthDate;
     }
 
     public String getName() {
@@ -27,11 +31,19 @@ public class Customer {
         this.email = email;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }

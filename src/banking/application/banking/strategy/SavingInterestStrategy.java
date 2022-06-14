@@ -1,4 +1,4 @@
-package banking.application.framework.models;
+package banking.application.banking.strategy;
 
 public class SavingInterestStrategy implements AccountInterestStrategy {
     @Override

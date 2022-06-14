@@ -8,7 +8,7 @@ public class AccountEntry {
     private LocalDate date = LocalDate.now();
     private double amount;
     private String description;
-    private String fromAccountNumber;
+        private String fromAccountNumber;
     private Account account;
 
     public AccountEntry(double amount, String description, String fromAccountNumber) {
