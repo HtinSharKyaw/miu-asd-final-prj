@@ -3,15 +3,20 @@ package banking.application.framework.models;
 import banking.application.banking.strategy.AccountInterestStrategy;
 import banking.application.framework.enums.AccountType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account {
+public class Account implements Serializable{
     //That will be in account service
 //    abstract void depositMoney();
 //    abstract void withdrawMoney();
 
-    private String accountNumber;//modify name of the id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7998092388498016664L;
+	private String accountNumber;//modify name of the id
     private Customer customer;
     private AccountType accountType;
     private List<AccountEntry> listOfAccountEntries;
