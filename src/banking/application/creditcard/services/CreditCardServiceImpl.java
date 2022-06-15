@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class CreditCardServiceImpl implements AccountService {
     @Override
-    public Account saveAccount(Account account, Customer customer) {
+    public Account createAccount(Account account, Customer customer) {
         return null;
     }
 

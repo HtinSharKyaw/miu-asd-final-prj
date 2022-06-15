@@ -1,5 +1,6 @@
 package banking.application.banking.services;
 
+import banking.application.framework.dataaccess.AccountDAO;
 import banking.application.framework.models.Account;
 import banking.application.framework.models.Customer;
 import banking.application.framework.services.AccountService;
@@ -7,8 +8,18 @@ import banking.application.framework.services.AccountService;
 import java.util.Collection;
 
 public class BankingServiceImpl implements AccountService {
+
+    private AccountDAO accountDAO;
+
+    public BankingServiceImpl(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
+
     @Override
-    public Account saveAccount(Account account, Customer customer) {
+    public Account createAccount(Account account, Customer customer) {
+        //accountService.saveAccount(account,customer);
+        accountDAO.saveAccount(account);
+        accountDAO.saveCustomer(customer);
         return null;
     }
 

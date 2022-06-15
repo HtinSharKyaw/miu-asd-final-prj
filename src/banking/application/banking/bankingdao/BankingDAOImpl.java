@@ -1,26 +1,27 @@
 package banking.application.banking.bankingdao;
 
-import java.util.HashMap;
-
-import banking.application.framework.dao.AccountDAO;
-import banking.application.framework.dataaccess.DataAccessHandler;
+import banking.application.framework.dataaccess.AccountDAO;
+import banking.application.framework.dataaccess.AccountDAOHandler;
 import banking.application.framework.models.Account;
 import banking.application.framework.models.Customer;
 
-public class BankingDAOImpl implements AccountDAO {
-	DataAccessHandler data = new DataAccessHandler();
-	
-	HashMap<String,Account> retrieveBankingAccounts(){
-		return data.retrieveAccounts();
-	};
-	HashMap<String,Customer> retrieveBankingCustomers(){
-		return data.retrieveCustomers();
-	}
-	void saveBankAccount(Account account) {
-		data.saveAccount(account);
-	}
-	void saveBankCustomer(Customer customer) {
-		data.saveCustomer(customer);
-	}
-	
+import java.util.HashMap;
+
+public class BankingDAOImpl {
+
+    AccountDAO data = new AccountDAOHandler();
+
+    HashMap<String,Account> retrieveBankingAccounts(){
+        return data.retrieveAccounts();
+    };
+    HashMap<String, Customer> retrieveBankingCustomers(){
+        return data.retrieveCustomers();
+    }
+    void saveBankingAccount(Account account) {
+        data.saveAccount(account);
+    }
+    void saveBankingCustomer(Customer customer) {
+        data.saveCustomer(customer);
+    }
+
 }

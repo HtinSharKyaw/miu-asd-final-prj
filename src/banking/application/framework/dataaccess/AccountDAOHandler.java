@@ -13,7 +13,7 @@ import banking.application.framework.models.Account;
 import banking.application.framework.models.Customer;
 
 
-public class DataAccessHandler implements DataAccess {
+public class AccountDAOHandler implements AccountDAO {
 	
 	enum StorageType {
 		ACCOUNTS, CUSTOMERS, CHECKOURECORDENTRIES;

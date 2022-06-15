@@ -21,13 +21,13 @@ public class TestData {
 	public static void main(String[] args) {
 		TestData td = new TestData();
 		td.bookData();	
-		DataAccess da = new DataAccessHandler();
+		AccountDAO da = new AccountDAOHandler();
 		System.out.println(da.retrieveAccounts());
 		//System.out.println(da.retrieveCustomers());
 	}
 	///create books
 	public void bookData() {
-		DataAccessHandler.loadAccounts(allAccounts);
+		AccountDAOHandler.loadAccounts(allAccounts);
 	}
 	
 
@@ -37,6 +37,7 @@ public class TestData {
 		{
 			add(new Account("767467877",null,24.00,null,null));
 			add(new Account("767467877",null,24.00,null,null));
+			add(new Account("767467878",null,29.00,null,null));
 		
 	
 		}

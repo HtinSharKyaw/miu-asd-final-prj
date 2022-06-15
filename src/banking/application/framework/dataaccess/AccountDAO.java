@@ -6,9 +6,9 @@ import banking.application.framework.models.Account;
 import banking.application.framework.models.Customer;
 
 
-public interface DataAccess { 
+public interface AccountDAO {
 	HashMap<String,Account> retrieveAccounts();
 	HashMap<String,Customer> retrieveCustomers();
-	void saveAccount(Account book);
+	void saveAccount(Account account);
 	void saveCustomer(Customer customer);
 }

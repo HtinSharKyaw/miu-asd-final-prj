@@ -6,7 +6,7 @@ import banking.application.framework.models.Customer;
 import java.util.Collection;
 
 public interface AccountService {
-    Account saveAccount(Account account, Customer customer);
+    Account createAccount(Account account, Customer customer);
     void deposit(String accountNumber,double amount, String description);
     void withdraw(String accountNumber,double amount );
     Collection<Account> getAllAccounts();
