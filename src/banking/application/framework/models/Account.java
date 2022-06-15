@@ -7,16 +7,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account implements Serializable{
+public class Account implements Serializable {
     //That will be in account service
 //    abstract void depositMoney();
 //    abstract void withdrawMoney();
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7998092388498016664L;
-	private String accountNumber;//modify name of the id
+     *
+     */
+    private static final long serialVersionUID = 7998092388498016664L;
+    private String accountNumber;//modify name of the id
     private Customer customer;
     private AccountType accountType;
     private List<AccountEntry> listOfAccountEntries;
@@ -54,19 +54,19 @@ public class Account implements Serializable{
         return listOfAccountEntries;
     }
 
-    public double depositMoney(Double moneyAdded){
+    public double depositMoney(Double moneyAdded) {
         balance += moneyAdded;
         return balance;
     }
 
-    public double withdrawMoney(Double withdrawMoney){
-        if(withdrawMoney > balance) {
+    public double withdrawMoney(Double withdrawMoney) {
+        if (withdrawMoney > balance) {
             return -1;
         }
         return balance - withdrawMoney;
     }
 
-    public void getReports(){
+    public void getReports() {
         System.out.println();
     }
 
@@ -75,8 +75,8 @@ public class Account implements Serializable{
         return balance;
     }
 
-    public void addInterest(){
+    public void addInterest() {
         //TODO some operations
-        accountInterestStrategy.calculateInterest(balance);
+        balance += accountInterestStrategy.calculateInterest(balance);
     }
 }

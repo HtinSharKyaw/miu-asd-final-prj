@@ -7,6 +7,7 @@ import banking.application.framework.models.Customer;
 
 
 public interface AccountDAO {
+	//Account retrieveAccount(String accountNo);
 	HashMap<String,Account> retrieveAccounts();
 	HashMap<String,Customer> retrieveCustomers();
 	void saveAccount(Account account);

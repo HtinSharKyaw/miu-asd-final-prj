@@ -11,6 +11,4 @@ public interface AccountService {
     void withdraw(String accountNumber,double amount );
     Collection<Account> getAllAccounts();
     Account getAccountById(String accountNumber);
-    void setInterest();
-    void generateReports();
 }
