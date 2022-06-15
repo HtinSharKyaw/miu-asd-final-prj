@@ -2,26 +2,31 @@ package banking.application.framework.models;
 
 import banking.application.banking.strategy.AccountInterestStrategy;
 import banking.application.framework.enums.AccountType;
+import banking.application.framework.observers.AccountObserverSubjectInterface;
+import banking.application.framework.observers.NotificationObserver;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account implements Serializable{
+public class Account implements Serializable, AccountObserverSubjectInterface {
     //That will be in account service
 //    abstract void depositMoney();
 //    abstract void withdrawMoney();
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7998092388498016664L;
-	private String accountNumber;//modify name of the id
+     *
+     */
+    private static final long serialVersionUID = 7998092388498016664L;
+    private String accountNumber;//modify name of the id
     private Customer customer;
     private AccountType accountType;
     private List<AccountEntry> listOfAccountEntries;
     private Double balance;
     protected AccountInterestStrategy accountInterestStrategy;
+
+    private List<NotificationObserver> observers;
+    //private Double amount;
 
     public Account(String accountNumber, Customer customer, Double balance, AccountType accountType) {
         this.accountNumber = accountNumber;
@@ -53,19 +58,27 @@ public class Account implements Serializable{
         return listOfAccountEntries;
     }
 
-    public double depositMoney(Double moneyAdded){
+    public double depositMoney(Double moneyAdded) {
+        AccountEntry accountEntry = new AccountEntry(moneyAdded, "money deposited", accountNumber);
+        listOfAccountEntries.add(accountEntry);
+        notifyObservers(accountEntry);
+
         balance += moneyAdded;
         return balance;
     }
 
-    public double withdrawMoney(Double withdrawMoney){
-        if(withdrawMoney > balance) {
+    public double withdrawMoney(Double withdrawMoney) {
+        AccountEntry accountEntry = new AccountEntry(withdrawMoney, "Withdraw Money", accountNumber);
+        listOfAccountEntries.add(accountEntry);
+        notifyObservers(accountEntry);
+
+        if (withdrawMoney > balance) {
             return -1;
         }
         return balance - withdrawMoney;
     }
 
-    public void getReports(){
+    public void getReports() {
         System.out.println();
     }
 
@@ -74,13 +87,31 @@ public class Account implements Serializable{
         return balance;
     }
 
-	 public void addInterest(){
-		 //new balance= balance+interest.
-		 balance += accountInterestStrategy.calculateInterest(balance);
-	 }
+    public void addInterest() {
+        //new balance= balance+interest.
+        balance += accountInterestStrategy.calculateInterest(balance);
+    }
 
-	public void setAccountInterestStrategy(AccountInterestStrategy accountInterestStrategy) {
-		this.accountInterestStrategy = accountInterestStrategy;
-	}
-    
+    public void setAccountInterestStrategy(AccountInterestStrategy accountInterestStrategy) {
+        this.accountInterestStrategy = accountInterestStrategy;
+    }
+
+
+    //-------------------------
+    @Override
+    public void registerObserver(NotificationObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(NotificationObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(AccountEntry accountEntry) {
+
+        observers.forEach(e -> e.update(accountEntry));
+    }
+
 }
