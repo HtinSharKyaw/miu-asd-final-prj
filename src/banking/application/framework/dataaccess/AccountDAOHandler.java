@@ -108,6 +108,8 @@ public class AccountDAOHandler implements AccountDAO {
 
 	@Override
 	public void saveAccount(Account account) {
+		saveCustomer(account.getCustomer());
+		
 		HashMap<String, Account> accounts = retrieveAccounts();
 		String accountNumber = account.getAccountNumber();
 		accounts.put(accountNumber, account);

@@ -2,14 +2,12 @@ package banking.application.creditcard.creditcarddao;
 
 import java.util.HashMap;
 
-import banking.application.framework.dataaccess.AccountDAO;
 import banking.application.framework.dataaccess.AccountDAOHandler;
 import banking.application.framework.models.Account;
 import banking.application.framework.models.Customer;
 
 public class CreditCardDAOImpl {
-
-	AccountDAO data = new AccountDAOHandler();
+	AccountDAOHandler data = new AccountDAOHandler();
 	
 	HashMap<String,Account> retrieveCreditCardAccounts(){
 		return data.retrieveAccounts();
@@ -23,6 +21,4 @@ public class CreditCardDAOImpl {
 	void saveCreditCardCustomer(Customer customer) {
 		data.saveCustomer(customer);
 	}
-
-
 }

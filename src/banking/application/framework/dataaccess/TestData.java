@@ -35,9 +35,8 @@ public class TestData {
 	@SuppressWarnings("serial")
 	List<Account> allAccounts = new ArrayList<Account>() {
 		{
-			add(new Account("767467877",null,24.00,null,null));
-			add(new Account("767467877",null,24.00,null,null));
-			add(new Account("767467878",null,29.00,null,null));
+			add(new Account("767467877",null,24.00,null));
+			add(new Account("767467877",null,24.00,null));
 		
 	
 		}

@@ -1,26 +1,24 @@
 package banking.application.framework.services;
 
-import banking.application.framework.dataaccess.AccountDAO;
-import banking.application.framework.models.Account;
-import banking.application.framework.models.Customer;
-
 import java.util.Collection;
 import java.util.HashMap;
 
+import banking.application.framework.dataaccess.AccountDAO;
+import banking.application.framework.dataaccess.AccountDAOHandler;
+import banking.application.framework.models.Account;
+
 public class AccountServiceImpl implements AccountService{
-     AccountDAO accountDAO;
+	private static AccountService accountService = null;
+    AccountDAO accountDAO;
 
 
-    public AccountServiceImpl(AccountDAO accountDAO) {
-        this.accountDAO = accountDAO;
+    private AccountServiceImpl() {
+        this.accountDAO = new AccountDAOHandler();
     }
 
     @Override
-    public Account createAccount(Account account, Customer customer) {
-        //accountService.saveAccount(account,customer);
+    public void createAccount(Account account) {
         accountDAO.saveAccount(account);
-        accountDAO.saveCustomer(customer);
-        return null;
     }
 
     @Override
@@ -73,4 +71,17 @@ public class AccountServiceImpl implements AccountService{
     public void generateReports(){
 
     }
+
+	public void setAccountDAO(AccountDAO accountDAO) {
+		this.accountDAO = accountDAO;
+	}
+
+	public static AccountService getInstance() {
+		
+		if (accountService == null)
+			accountService = new AccountServiceImpl();
+		
+		return accountService;
+	}
+    
 }
