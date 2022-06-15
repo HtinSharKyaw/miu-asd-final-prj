@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account implements Serializable, AccountObserverSubjectInterface {
+public abstract class Account implements Serializable, AccountObserverSubjectInterface {
     //That will be in account service
 //    abstract void depositMoney();
 //    abstract void withdrawMoney();
@@ -59,7 +59,7 @@ public class Account implements Serializable, AccountObserverSubjectInterface {
     }
 
     public double depositMoney(Double moneyAdded) {
-        AccountEntry accountEntry = new AccountEntry(moneyAdded, "money deposited", accountNumber);
+        AccountEntry accountEntry = new AccountEntry(moneyAdded, "new deposit", accountNumber);
         listOfAccountEntries.add(accountEntry);
         notifyObservers(accountEntry);
 
@@ -68,7 +68,7 @@ public class Account implements Serializable, AccountObserverSubjectInterface {
     }
 
     public double withdrawMoney(Double withdrawMoney) {
-        AccountEntry accountEntry = new AccountEntry(withdrawMoney, "Withdraw Money", accountNumber);
+        AccountEntry accountEntry = new AccountEntry(withdrawMoney, "new withdrawal", accountNumber);
         listOfAccountEntries.add(accountEntry);
         notifyObservers(accountEntry);
 
