@@ -27,11 +27,11 @@ public class CardFrm extends javax.swing.JFrame
 		setTitle("Credit-card processing Application.");
 		setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0,0));
-		setSize(575,310);
+		setSize(675,410);
 		setVisible(false);
 		JPanel1.setLayout(null);
 		getContentPane().add(BorderLayout.CENTER, JPanel1);
-		JPanel1.setBounds(0,0,575,310);
+		JPanel1.setBounds(0,0,675,410);
 		/*
 		/Add five buttons on the pane 
 		/for Adding personal account, Adding company account

@@ -6,6 +6,7 @@ import banking.application.framework.observers.AccountObserverSubjectInterface;
 import banking.application.framework.observers.NotificationObserver;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public abstract class Account implements Serializable, AccountObserverSubjectInt
     private String accountNumber;//modify name of the id
     private Customer customer;
     private AccountType accountType;
-    private List<AccountEntry> listOfAccountEntries;
+    private List<AccountEntry> listOfAccountEntries = new ArrayList<>();
     private Double balance;
     protected AccountInterestStrategy accountInterestStrategy;
 
@@ -62,14 +63,17 @@ public abstract class Account implements Serializable, AccountObserverSubjectInt
     public Double depositMoney(Double addedMoney) {
         balance += addedMoney;
         //call the method after the balance operation of depositing money
+        AccountEntry accountEntry = new AccountEntry(LocalDate.now(), accountNumber, addedMoney);
+      // listOfAccountEntries.add(accountEntry);
         addAccountEntryAndNotify(addedMoney, balance);
         return balance;
     }
 
-    //this will work as charging in credit card
     public Double withdrawMoney(Double withDrawMoney) {
         balance -= withDrawMoney;
         //call the method after the balance operation of
+        AccountEntry accountEntry = new AccountEntry(LocalDate.now(), accountNumber, withDrawMoney);
+        //listOfAccountEntries.add(accountEntry);
         addAccountEntryAndNotify(withDrawMoney, balance);
         return balance;
     }
@@ -85,14 +89,16 @@ public abstract class Account implements Serializable, AccountObserverSubjectInt
         return balance;
     }
 
-    public void addInterest() {
+    public Account addInterest() {
         //new balance= balance+interest.
         balance += accountInterestStrategy.calculateInterest(balance);
+        return this;
     }
 
-    public AccountInterestStrategy getAccountInterestStrategy() {
-        return accountInterestStrategy;
+    public void setAccountInterestStrategy(AccountInterestStrategy accountInterestStrategy) {
+        this.accountInterestStrategy = accountInterestStrategy;
     }
+
 
     //-------------------------
     @Override

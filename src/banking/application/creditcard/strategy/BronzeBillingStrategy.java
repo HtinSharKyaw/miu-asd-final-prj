@@ -1,8 +1,15 @@
 package banking.application.creditcard.strategy;
 
-public class BronzeBillingStrategy implements CreditCardBillingStrategy {
+import java.io.Serializable;
 
-    @Override
+public class BronzeBillingStrategy implements CreditCardBillingStrategy, Serializable {
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8459261032087826549L;
+
+	@Override
     public double minimumPayment(double withdrawalAmount) {
         return withdrawalAmount * getMinimumPayment();
 

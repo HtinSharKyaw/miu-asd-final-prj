@@ -1,7 +1,13 @@
 package banking.application.framework.models;
 
-public class Address {
-    private String streetName;
+import java.io.Serializable;
+
+public class Address implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2278467293043026432L;
+	private String streetName;
     private String city;
     private String state;
     private String zip;

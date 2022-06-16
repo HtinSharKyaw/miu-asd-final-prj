@@ -1,9 +1,11 @@
 package banking.application.framework.models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Customer implements Serializable{
+	
+	
 	/**
 	 * 
 	 */
@@ -12,14 +14,14 @@ public class Customer implements Serializable{
     private String name;
     private String email;
     private Address address;
-    private Date birthDate;
+    private LocalDate birthLocalDate;
 
-    public Customer(String cust,String name, String email, Address address, Date birthDate) {
+    public Customer(String cust,String name, String email, Address address, LocalDate birthLocalDate) {
     	this.customerId = cust;
         this.name = name;
         this.email = email;
         this.address = address;
-        this.birthDate = birthDate;
+        this.birthLocalDate = birthLocalDate;
     }
 
     public String getName() {
@@ -46,12 +48,12 @@ public class Customer implements Serializable{
         this.address = address;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public LocalDate getBirthLocalDate() {
+        return birthLocalDate;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthLocalDate(LocalDate birthLocalDate) {
+        this.birthLocalDate = birthLocalDate;
     }
 
 	public String getCustomerId() {
@@ -61,5 +63,6 @@ public class Customer implements Serializable{
 	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
-
+    
+    
 }

@@ -1,6 +1,13 @@
 package banking.application.creditcard.strategy;
 
-public class SilverBillingStrategy implements CreditCardBillingStrategy{
+import java.io.Serializable;
+
+public class SilverBillingStrategy implements CreditCardBillingStrategy, Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1491362873155836937L;
 
 	@Override
 	public double minimumPayment(double withdrawalAmount) {

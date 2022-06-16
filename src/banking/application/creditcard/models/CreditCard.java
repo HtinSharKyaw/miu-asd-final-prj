@@ -11,6 +11,7 @@ import banking.application.framework.observers.NotificationObserver;
 import java.time.LocalDate;
 
 public class CreditCard extends Account implements NotificationObserver {
+
     /**
      *
      */
@@ -57,10 +58,6 @@ public class CreditCard extends Account implements NotificationObserver {
         return creditCardType;
     }
 
-    public CreditCardBillingStrategy getBillingStrategy() {
-        return billingStrategy;
-    }
-
     @Override
     public void update(AccountEntry accountEntry) {
         if (accountEntry.getDescription().contains("deposit")) {
@@ -71,16 +68,27 @@ public class CreditCard extends Account implements NotificationObserver {
         } else {
             minimumPaymentAmount += billingStrategy.minimumPayment(accountEntry.getAmount());
         }
+
+
     }
 
     //for keeping track for the history of charges and payment
     public void addAccountEntryAndNotify(Double moneyOnWithDrawOrDeposit, Double totalMoney) {
         //Why localDate.now? because we will record the account history based on the time that account is operated
-        AccountEntry accountEntry = new AccountEntry(LocalDate.now(), super.getAccountNumber(), moneyOnWithDrawOrDeposit);
+        //AccountEntry accountEntry = new AccountEntry(LocalDate.now(), super.getAccountNumber(), moneyOnWithDrawOrDeposit);
         //for keeping track for the history of charges and payment
-        getListOfAccountEntries().add(accountEntry);
-        if (totalMoney < 0 || moneyOnWithDrawOrDeposit > 400) {
-            notifyObservers(accountEntry);
-        }
+       // getListOfAccountEntries().add(accountEntry);
+       // if (totalMoney < 0 || moneyOnWithDrawOrDeposit > 400) {
+            //notifyObservers(accountEntry);
+        //}
     }
+
+	public CreditCardBillingStrategy getBillingStrategy() {
+		return billingStrategy;
+	}
+
+	public void setBillingStrategy(CreditCardBillingStrategy billingStrategy) {
+		this.billingStrategy = billingStrategy;
+	}
+    
 }

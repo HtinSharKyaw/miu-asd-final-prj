@@ -1,22 +1,23 @@
 package banking.application.framework.services;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import banking.application.creditcard.models.CreditCard;
 import banking.application.framework.dataaccess.AccountDAO;
 import banking.application.framework.dataaccess.AccountDAOHandler;
 import banking.application.framework.models.Account;
 import banking.application.framework.models.AccountEntry;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class AccountServiceImpl implements AccountService {
     private static AccountService accountService = null;
     AccountDAO accountDAO;
-//    Account account;
+    Logger logger = Logger.getLogger(AccountServiceImpl.class.getName());
 
     private AccountServiceImpl() {
         this.accountDAO = new AccountDAOHandler();
@@ -27,7 +28,6 @@ public class AccountServiceImpl implements AccountService {
         accountDAO.saveAccount(account);
     }
 
-
     @Override
     public void deposit(String accountNumber, double amount, String description) {
 
@@ -36,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
             System.out.println("Unsupported account");
         } else {
             account.depositMoney(amount);
+            logger.info("A deposit of $ "+ amount + " has been made to the accountNumber: "+ accountNumber);
             accountDAO.saveAccount(account);
         }
     }
@@ -47,6 +48,7 @@ public class AccountServiceImpl implements AccountService {
             System.out.println("Unsupported account");
         } else {
             account.withdrawMoney(amount);
+            logger.info("A withdrawal of $ "+ amount + " has been made to the accountNumber: "+ accountNumber);
             accountDAO.saveAccount(account);
         }
     }
@@ -54,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Collection<Account> getAllAccounts() {
         HashMap<String, Account> accounts = accountDAO.retrieveAccounts();
-        return accounts.values();
+        return accounts !=null? accounts.values() :null;
     }
 
     @Override
@@ -65,26 +67,20 @@ public class AccountServiceImpl implements AccountService {
             account = accountList.get(accountNumber);
             return account;
         } else {
-            return null;
+            throw new UnsupportedOperationException("No such account");
         }
+
     }
 
     public void addInterest(String accountNumber) {
         Collection<Account> accounts = getAllAccounts();
-        accounts.forEach(Account::addInterest);
-    }
+        logger.info("Applying interest to accountNumber: "+ accountNumber);
+        accounts.forEach(account -> {
+                    account = account.addInterest();
+                    accountDAO.saveAccount(account);
+                }
+        );
 
-
-//    public void setAccountDAO(AccountDAO accountDAO) {
-//        this.accountDAO = accountDAO;
-//    }
-
-    public static AccountService getInstance() {
-
-        if (accountService == null)
-            accountService = new AccountServiceImpl();
-
-        return accountService;
     }
 
     @Override
@@ -100,6 +96,7 @@ public class AccountServiceImpl implements AccountService {
         return result.toString();
     }
 
+    
     @Override
     public String generateMonthlyBillingReportsForCreditCard(String accountNumber) {
         String result = "";
@@ -149,8 +146,7 @@ public class AccountServiceImpl implements AccountService {
         }
         return result;
     }
-
-
+    
     @Override
     public List<Account> getAllAccountsBasedOnTheSpecificCustomer(String customerName) {
         //get all the accounts from the dao
@@ -174,6 +170,18 @@ public class AccountServiceImpl implements AccountService {
         System.out.println(account.getAccountNumber());
         return result;
     }
+    
 
+    public void setAccountDAO(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
+
+    public static AccountService getInstance() {
+
+        if (accountService == null)
+            accountService = new AccountServiceImpl();
+
+        return accountService;
+    }
 
 }
