@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Customer implements Serializable{
-	
-	
 	/**
 	 * 
 	 */
@@ -63,6 +61,5 @@ public class Customer implements Serializable{
 	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
-    
-    
+
 }

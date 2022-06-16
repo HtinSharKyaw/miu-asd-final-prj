@@ -322,7 +322,7 @@ public class BankFrm extends javax.swing.JFrame
 
 			JDialogGenBill billFrm = new JDialogGenBill();
 			billFrm.setBounds(450, 20, 400, 350);
-			String report = accountService.generateReport(CC);
+			String report = accountService.generateReportForBankingAndSavingAccounts(CC);
 			System.out.println(report);
 			billFrm.JTextArea.append(report);
 			billFrm.show();

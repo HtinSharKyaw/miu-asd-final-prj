@@ -89,10 +89,9 @@ public abstract class Account implements Serializable, AccountObserverSubjectInt
         balance += accountInterestStrategy.calculateInterest(balance);
     }
 
-    public void setAccountInterestStrategy(AccountInterestStrategy accountInterestStrategy) {
-        this.accountInterestStrategy = accountInterestStrategy;
+    public AccountInterestStrategy getAccountInterestStrategy() {
+        return accountInterestStrategy;
     }
-
 
     //-------------------------
     @Override

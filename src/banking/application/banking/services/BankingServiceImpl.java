@@ -25,4 +25,8 @@ public class BankingServiceImpl{
     public Account getAccountById(String accountNumber) {
     	return accountServiceHandler.getAccountById(accountNumber);
     }
+    //call for the banking service
+    public String generateReportForParticularAccount(String accountNumber){
+        return accountServiceHandler.generateReportForBankingAndSavingAccounts(accountNumber);
+    }
   }

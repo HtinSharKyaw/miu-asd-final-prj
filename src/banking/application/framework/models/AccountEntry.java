@@ -9,7 +9,7 @@ public class AccountEntry {
     private double amount;
     private String description;
     private String fromAccountNumber;
-    private Account account;
+    private Account account ;
 
     //TODO
     //Constructor for account entry in saving and checking account

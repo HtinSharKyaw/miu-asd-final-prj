@@ -1,19 +1,19 @@
 package banking.application.framework.services;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
 import banking.application.framework.dataaccess.AccountDAO;
 import banking.application.framework.dataaccess.AccountDAOHandler;
 import banking.application.framework.models.Account;
 import banking.application.framework.models.AccountEntry;
+import banking.application.framework.models.Customer;
 
-public class AccountServiceImpl implements AccountService{
-	private static AccountService accountService = null;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class AccountServiceImpl implements AccountService {
+    private static AccountService accountService = null;
     AccountDAO accountDAO;
-
+//    Account account;
 
     private AccountServiceImpl() {
         this.accountDAO = new AccountDAOHandler();
@@ -25,12 +25,17 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    public void createCustomer(Customer customer) {
+
+    }
+
+    @Override
     public void deposit(String accountNumber, double amount, String description) {
 
         Account account = getAccountById(accountNumber);
-        if(null==account){
+        if (null == account) {
             System.out.println("Unsupported account");
-        }else{
+        } else {
             account.depositMoney(amount);
             accountDAO.saveAccount(account);
         }
@@ -39,9 +44,9 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public void withdraw(String accountNumber, double amount) {
         Account account = getAccountById(accountNumber);
-        if(null==account){
+        if (null == account) {
             System.out.println("Unsupported account");
-        }else{
+        } else {
             account.withdrawMoney(amount);
             accountDAO.saveAccount(account);
         }
@@ -49,7 +54,7 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public Collection<Account> getAllAccounts() {
-        HashMap<String,Account> accounts = accountDAO.retrieveAccounts();
+        HashMap<String, Account> accounts = accountDAO.retrieveAccounts();
         return accounts.values();
     }
 
@@ -66,39 +71,85 @@ public class AccountServiceImpl implements AccountService{
 
     }
 
-    public void addInterest(String accountNumber){
-        Collection<Account> accounts=getAllAccounts();
-        accounts.forEach(account -> account.addInterest());
+
+    public void addInterest(String accountNumber) {
+        Collection<Account> accounts = getAllAccounts();
+        accounts.forEach(Account::addInterest);
     }
 
 
+    public void setAccountDAO(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
 
-	public void setAccountDAO(AccountDAO accountDAO) {
-		this.accountDAO = accountDAO;
-	}
+    public static AccountService getInstance() {
 
-	public static AccountService getInstance() {
-		
-		if (accountService == null)
-			accountService = new AccountServiceImpl();
-		
-		return accountService;
-	}
+        if (accountService == null)
+            accountService = new AccountServiceImpl();
+
+        return accountService;
+    }
+
     @Override
-    public String generateReport(String accountNumber) {
-        String result="";
-        List<AccountEntry> List = new ArrayList<>();
+    public String generateReportForBankingAndSavingAccounts(String accountNumber) {
+        StringBuilder result = new StringBuilder();
+        List<AccountEntry> list = new ArrayList<>();
         Account account = getAccountById(accountNumber);
-        List= account.getListOfAccountEntries();
-        for(AccountEntry e: List){
-            result+=(e.toString()+ " \n");
+        list = account.getListOfAccountEntries();
+        for (AccountEntry e : list) {
+            result.append(e.toString()).append(" \n");
         }
         System.out.println(result);
-        return result;
+        return result.toString();
     }
-    public String[] getAccountDetails(Account account)
-    {
-        String code= account.getAccountNumber();
+
+    @Override
+    public String generateMonthlyBillingReportsForCreditCard(String accountNumber) {
+        String result = "";
+        List<AccountEntry> accountEntryList = new ArrayList<>();
+        //get the particular account
+        Account account = getAccountById(accountNumber);
+        //get
+        accountEntryList = account.getListOfAccountEntries();
+        //getting the last month total balance from the account entry
+
+        double previousBalance, allChargesForThisMonth, allPaymentForThisMonth, newBalance, totalDue;
+
+        //balance for previous month
+        previousBalance = accountEntryList.stream()
+                .filter(e -> ((int) LocalDate.now().getMonthValue() - (int) e.getDate().getMonthValue()) == 1)
+                .mapToDouble(AccountEntry::getAmount)
+                .sum();
+        //total charges
+        allChargesForThisMonth = accountEntryList.stream()
+                .filter(e -> LocalDate.now().getMonth().equals(e.getDate().getMonth()))
+                .filter(v -> v.getDescription().contains("charge"))
+                .mapToDouble(AccountEntry::getAmount)
+                .sum();
+        //total credits
+        allPaymentForThisMonth = accountEntryList.stream()
+                .filter(e -> LocalDate.now().getMonth().equals(e.getDate().getMonth()))
+                .filter(v -> v.getDescription().contains("payment"))
+                .mapToDouble(AccountEntry::getAmount)
+                .sum();
+        //newBalance = previousBalance - allChargesForThisMonth + allChargesForThisMonth + account.getAccountInterestStrategy()
+        return null;
+    }
+
+
+    @Override
+    public List<Account> getAllAccountsBasedOnTheSpecificCustomer(String customerName) {
+        //get all the accounts from the dao
+        HashMap<String, Account> accounts = accountDAO.retrieveAccounts();
+        Collection<Account> accountList = accounts.values();
+        //return all accounts based on the specific customerName
+        return accountList.stream()
+                .filter(value -> value.getCustomer().getName().equals(customerName))
+                .collect(Collectors.toList());
+    }
+
+    public String[] getAccountDetails(Account account) {
+        String code = account.getAccountNumber();
         String[] result = new String[6];
         result[0] = account.getCustomer().getName();
         result[1] = account.getAccountNumber();
@@ -107,8 +158,8 @@ public class AccountServiceImpl implements AccountService{
         result[4] = String.valueOf(account.getBalance());
         result[5] = account.getCustomer().getAddress().getCity();
         System.out.println(account.getAccountNumber());
-
-
         return result;
     }
+
+
 }

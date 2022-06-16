@@ -11,7 +11,6 @@ import banking.application.framework.observers.NotificationObserver;
 import java.time.LocalDate;
 
 public class CreditCard extends Account implements NotificationObserver {
-
     /**
      *
      */

@@ -1,16 +1,21 @@
 package banking.application.framework.services;
 
 import java.util.Collection;
+import java.util.List;
 
 import banking.application.framework.models.Account;
+import banking.application.framework.models.Customer;
 
 public interface AccountService {
     void createAccount(Account account);
+    void createCustomer(Customer customer);
     void deposit(String accountNumber,double amount, String description);
     void withdraw(String accountNumber,double amount );
     Collection<Account> getAllAccounts();
     Account getAccountById(String accountNumber);
-    String generateReport(String ID);
+    String generateReportForBankingAndSavingAccounts(String accountNumber);
+    String generateMonthlyBillingReportsForCreditCard(String accountNumber);
     void addInterest(String accountNumber);
     String[] getAccountDetails(Account account);
+    List<Account> getAllAccountsBasedOnTheSpecificCustomer(String customerName);
 }
