@@ -8,13 +8,21 @@ public class AccountEntry {
     private LocalDate date = LocalDate.now();
     private double amount;
     private String description;
-        private String fromAccountNumber;
+    private String fromAccountNumber;
     private Account account;
 
+    //TODO
+    //Constructor for account entry in saving and checking account
     public AccountEntry(double amount, String description, String fromAccountNumber) {
         this.amount = amount;
         this.description = description;
         this.fromAccountNumber = fromAccountNumber;
+    }
+    //Constructor for credit card account entry
+    public AccountEntry(LocalDate localDate,String accountNumber,double amount) {
+        this.date = localDate;
+        this.fromAccountNumber = accountNumber;
+        this.amount = amount;
     }
 
     public String getId() {

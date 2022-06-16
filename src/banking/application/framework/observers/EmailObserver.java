@@ -5,7 +5,7 @@ import banking.application.framework.models.AccountEntry;
 
 public class EmailObserver implements NotificationObserver, DisplayNotification {
     private Account concreteAccountSubject;
-    private AccountEntry accountEntry;
+    //private AccountEntry accountEntry;
 
     public EmailObserver(Account concreteAccountSubject) {
         this.concreteAccountSubject = concreteAccountSubject;
@@ -14,14 +14,15 @@ public class EmailObserver implements NotificationObserver, DisplayNotification 
 
     @Override
     public void update(AccountEntry accountEntry) {
-        this.accountEntry = accountEntry;
-        display();
+        //this.accountEntry = accountEntry;
+        display(accountEntry);
     }
 
 
     @Override
-    public void display() {
-        System.out.println("Email Notification : your account transition is amount is " + accountEntry.getAmount());
+    public void display(AccountEntry accountEntry) {
+        System.out.println("Email Notification : your account transition of amount is " + accountEntry.getAmount());
 
     }
+
 }

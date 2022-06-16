@@ -5,7 +5,7 @@ import banking.application.framework.models.AccountEntry;
 
 public class MessageObserver implements NotificationObserver,DisplayNotification{
     private Account concreteAccountSubject;
-    private AccountEntry accountEntry;
+    // private AccountEntry accountEntry;
 
     public MessageObserver(Account concreteAccountSubject) {
         this.concreteAccountSubject = concreteAccountSubject;
@@ -14,13 +14,14 @@ public class MessageObserver implements NotificationObserver,DisplayNotification
 
     @Override
     public void update(AccountEntry accountEntry) {
-        this.accountEntry = accountEntry;
-        display();
+//        this.accountEntry = accountEntry;
+        display(accountEntry);
     }
 
 
     @Override
-    public void display() {
-        System.out.println("Message Notification : your account number money amount is " + accountEntry.getAmount());
+    public void display(AccountEntry accountEntry) {
+        System.out.println("Message Notification : your account number of money amount is " + accountEntry.getAmount());
     }
+
 }

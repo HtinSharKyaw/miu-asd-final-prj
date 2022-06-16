@@ -58,25 +58,22 @@ public abstract class Account implements Serializable, AccountObserverSubjectInt
         return listOfAccountEntries;
     }
 
-    public double depositMoney(Double moneyAdded) {
-        AccountEntry accountEntry = new AccountEntry(moneyAdded, "new deposit", accountNumber);
-        listOfAccountEntries.add(accountEntry);
-        notifyObservers(accountEntry);
 
-        balance += moneyAdded;
+    public Double depositMoney(Double addedMoney) {
+        balance += addedMoney;
+        //call the method after the balance operation of depositing money
+        addAccountEntryAndNotify(addedMoney, balance);
         return balance;
     }
 
-    public double withdrawMoney(Double withdrawMoney) {
-        AccountEntry accountEntry = new AccountEntry(withdrawMoney, "new withdrawal", accountNumber);
-        listOfAccountEntries.add(accountEntry);
-        notifyObservers(accountEntry);
-
-        if (withdrawMoney > balance) {
-            return -1;
-        }
-        return balance - withdrawMoney;
+    public Double withdrawMoney(Double withDrawMoney) {
+        balance -= withDrawMoney;
+        //call the method after the balance operation of
+        addAccountEntryAndNotify(withDrawMoney, balance);
+        return balance;
     }
+
+    public abstract void addAccountEntryAndNotify(Double moneyOnWithDrawOrDeposit, Double totalBalance);
 
     public void getReports() {
         System.out.println();

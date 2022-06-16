@@ -1,14 +1,14 @@
 package banking.application.framework.services;
 
-import java.util.Collection;
-import java.util.HashMap;
-
 import banking.application.framework.dataaccess.AccountDAO;
 import banking.application.framework.dataaccess.AccountDAOHandler;
 import banking.application.framework.models.Account;
 
-public class AccountServiceImpl implements AccountService{
-	private static AccountService accountService = null;
+import java.util.Collection;
+import java.util.HashMap;
+
+public class AccountServiceImpl implements AccountService {
+    private static AccountService accountService = null;
     AccountDAO accountDAO;
 
 
@@ -25,9 +25,9 @@ public class AccountServiceImpl implements AccountService{
     public void deposit(String accountNumber, double amount, String description) {
 
         Account account = getAccountById(accountNumber);
-        if(null==account){
+        if (null == account) {
             System.out.println("Unsupported account");
-        }else{
+        } else {
             account.depositMoney(amount);
             accountDAO.saveAccount(account);
         }
@@ -36,9 +36,9 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public void withdraw(String accountNumber, double amount) {
         Account account = getAccountById(accountNumber);
-        if(null==account){
+        if (null == account) {
             System.out.println("Unsupported account");
-        }else{
+        } else {
             account.withdrawMoney(amount);
             accountDAO.saveAccount(account);
         }
@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public Collection<Account> getAllAccounts() {
-        HashMap<String,Account> accounts = accountDAO.retrieveAccounts();
+        HashMap<String, Account> accounts = accountDAO.retrieveAccounts();
         return accounts.values();
     }
 
@@ -63,25 +63,30 @@ public class AccountServiceImpl implements AccountService{
 
     }
 
-    public void addInterest(String accountNumber){
-        Collection<Account> accounts=getAllAccounts();
-        accounts.forEach(account -> account.addInterest());
+    public void addInterest(String accountNumber) {
+        Collection<Account> accounts = getAllAccounts();
+        accounts.forEach(account -> {
+                    account.addInterest();
+                    accountDAO.saveAccount(account);
+                }
+        );
+
     }
 
-    public void generateReports(){
+    public void generateReports() {
 
     }
 
-	public void setAccountDAO(AccountDAO accountDAO) {
-		this.accountDAO = accountDAO;
-	}
+    public void setAccountDAO(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
 
-	public static AccountService getInstance() {
-		
-		if (accountService == null)
-			accountService = new AccountServiceImpl();
-		
-		return accountService;
-	}
-    
+    public static AccountService getInstance() {
+
+        if (accountService == null)
+            accountService = new AccountServiceImpl();
+
+        return accountService;
+    }
+
 }
