@@ -1,14 +1,15 @@
 package banking.application.ui.bank;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 
-public class JDialog_Withdraw extends JDialog
+
+public class JDialog_Withdraw extends javax.swing.JDialog
 {
 
-    private BankFrm parentframe;
-    private String accnr;
+	private BankFrm parentframe;
+	private String accnr;
 
 	public JDialog_Withdraw(BankFrm parent, String aaccnr)
 	{
@@ -29,11 +30,11 @@ public class JDialog_Withdraw extends JDialog
 		setVisible(false);
 		JLabel1.setText("Acc Nr");
 		getContentPane().add(JLabel1);
-		JLabel1.setForeground(Color.black);
+		JLabel1.setForeground(java.awt.Color.black);
 		JLabel1.setBounds(12,12,48,24);
 		JLabel2.setText("Amount");
 		getContentPane().add(JLabel2);
-		JLabel2.setForeground(Color.black);
+		JLabel2.setForeground(java.awt.Color.black);
 		JLabel2.setBounds(12,36,48,24);
 		JTextField_NAME.setEditable(false);
 		getContentPane().add(JTextField_NAME);
@@ -49,7 +50,7 @@ public class JDialog_Withdraw extends JDialog
 		getContentPane().add(JButton_Calcel);
 		JButton_Calcel.setBounds(156,84,84,24);
 
-	    JTextField_NAME.setText(accnr);
+		JTextField_NAME.setText(accnr);
 
 
 		SymAction lSymAction = new SymAction();
@@ -61,12 +62,12 @@ public class JDialog_Withdraw extends JDialog
 
 
 
-	JLabel JLabel1 = new JLabel();
-	JLabel JLabel2 = new JLabel();
-	JTextField JTextField_NAME = new JTextField();
-	JTextField JTextField_AMT = new JTextField();
-	JButton JButton_OK = new JButton();
-	JButton JButton_Calcel = new JButton();
+	javax.swing.JLabel JLabel1 = new javax.swing.JLabel();
+	javax.swing.JLabel JLabel2 = new javax.swing.JLabel();
+	javax.swing.JTextField JTextField_NAME = new javax.swing.JTextField();
+	javax.swing.JTextField JTextField_AMT = new javax.swing.JTextField();
+	javax.swing.JButton JButton_OK = new javax.swing.JButton();
+	javax.swing.JButton JButton_Calcel = new javax.swing.JButton();
 
 
 
@@ -84,7 +85,7 @@ public class JDialog_Withdraw extends JDialog
 
 	void JButtonOK_actionPerformed(java.awt.event.ActionEvent event)
 	{
-        parentframe.amountDeposit=JTextField_AMT.getText();
+		parentframe.amountDeposit=JTextField_AMT.getText();
 		dispose();
 	}
 

@@ -25,8 +25,8 @@ public class JDialogGenBill extends JDialog
 		setVisible(false);
 		getContentPane().add(JScrollPane1);
 		JScrollPane1.setBounds(24,24,358,240);
-		JScrollPane1.getViewport().add(JTextField1);
-		JTextField1.setBounds(0,0,355,237);
+		JScrollPane1.getViewport().add(JTextArea);
+		JTextArea.setBounds(0,0,355,237);
 		JButton_OK.setText("OK");
 		JButton_OK.setActionCommand("OK");
 		getContentPane().add(JButton_OK);
@@ -53,7 +53,7 @@ public class JDialogGenBill extends JDialog
 		billstring += "Total Charges = $ 150.00\r\n";
 		billstring += "New balance = $ 313.53\r\n";
 		billstring += "Total amount due = $ 34.49\r\n";
-		JTextField1.setText(billstring);
+		JTextArea.setText(billstring);
 		//}}
 
 		//{{REGISTER_LISTENERS
@@ -71,7 +71,7 @@ public class JDialogGenBill extends JDialog
 
 	//{{DECLARE_CONTROLS
 	JScrollPane JScrollPane1 = new JScrollPane();
-	JTextField JTextField1 = new JTextField();
+	public javax.swing.JTextArea JTextArea = new javax.swing.JTextArea();
 	JButton JButton_OK = new JButton();
 	//}}
 

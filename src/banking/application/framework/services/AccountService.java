@@ -10,4 +10,7 @@ public interface AccountService {
     void withdraw(String accountNumber,double amount );
     Collection<Account> getAllAccounts();
     Account getAccountById(String accountNumber);
+    String generateReport(String ID);
+    void addInterest(String accountNumber);
+    String[] getAccountDetails(Account account);
 }
