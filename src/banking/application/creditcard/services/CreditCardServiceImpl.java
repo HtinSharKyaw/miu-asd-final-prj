@@ -25,6 +25,8 @@ public class CreditCardServiceImpl {
     public Account getAccountById(String accountNumber) {
     	return accountServiceHandler.getAccountById(accountNumber);
     }
-
+    public String generateMonthlyBillingReportsForCreditCard(String accountNumber){
+        return accountServiceHandler.generateMonthlyBillingReportsForCreditCard(accountNumber);
+    };
 
 }

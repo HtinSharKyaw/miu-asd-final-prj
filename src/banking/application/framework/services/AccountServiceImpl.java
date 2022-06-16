@@ -1,13 +1,16 @@
 package banking.application.framework.services;
 
+import banking.application.creditcard.models.CreditCard;
 import banking.application.framework.dataaccess.AccountDAO;
 import banking.application.framework.dataaccess.AccountDAOHandler;
 import banking.application.framework.models.Account;
 import banking.application.framework.models.AccountEntry;
-import banking.application.framework.models.Customer;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class AccountServiceImpl implements AccountService {
@@ -24,10 +27,6 @@ public class AccountServiceImpl implements AccountService {
         accountDAO.saveAccount(account);
     }
 
-    @Override
-    public void createCustomer(Customer customer) {
-
-    }
 
     @Override
     public void deposit(String accountNumber, double amount, String description) {
@@ -66,11 +65,9 @@ public class AccountServiceImpl implements AccountService {
             account = accountList.get(accountNumber);
             return account;
         } else {
-            throw new UnsupportedOperationException("No such account");
+            return null;
         }
-
     }
-
 
     public void addInterest(String accountNumber) {
         Collection<Account> accounts = getAllAccounts();
@@ -78,9 +75,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    public void setAccountDAO(AccountDAO accountDAO) {
-        this.accountDAO = accountDAO;
-    }
+//    public void setAccountDAO(AccountDAO accountDAO) {
+//        this.accountDAO = accountDAO;
+//    }
 
     public static AccountService getInstance() {
 
@@ -108,32 +105,49 @@ public class AccountServiceImpl implements AccountService {
         String result = "";
         List<AccountEntry> accountEntryList = new ArrayList<>();
         //get the particular account
-        Account account = getAccountById(accountNumber);
+        CreditCard creditAccount = (CreditCard) getAccountById(accountNumber);
         //get
-        accountEntryList = account.getListOfAccountEntries();
-        //getting the last month total balance from the account entry
+        if (creditAccount == null) {
+            result = "There is no such account number";
+        } else {
+            accountEntryList = creditAccount.getListOfAccountEntries();
+            //getting the last month total balance from the account entry
 
-        double previousBalance, allChargesForThisMonth, allPaymentForThisMonth, newBalance, totalDue;
+            double previousBalance, allChargesForThisMonth, newBalance, totalDue;
+            double allPaymentForThisMonth, monthlyInterest, minimumPayment;
 
-        //balance for previous month
-        previousBalance = accountEntryList.stream()
-                .filter(e -> ((int) LocalDate.now().getMonthValue() - (int) e.getDate().getMonthValue()) == 1)
-                .mapToDouble(AccountEntry::getAmount)
-                .sum();
-        //total charges
-        allChargesForThisMonth = accountEntryList.stream()
-                .filter(e -> LocalDate.now().getMonth().equals(e.getDate().getMonth()))
-                .filter(v -> v.getDescription().contains("charge"))
-                .mapToDouble(AccountEntry::getAmount)
-                .sum();
-        //total credits
-        allPaymentForThisMonth = accountEntryList.stream()
-                .filter(e -> LocalDate.now().getMonth().equals(e.getDate().getMonth()))
-                .filter(v -> v.getDescription().contains("payment"))
-                .mapToDouble(AccountEntry::getAmount)
-                .sum();
-        //newBalance = previousBalance - allChargesForThisMonth + allChargesForThisMonth + account.getAccountInterestStrategy()
-        return null;
+            //balance for previous month
+            previousBalance = accountEntryList.stream()
+                    .filter(e -> ((int) LocalDate.now().getMonthValue() - (int) e.getDate().getMonthValue()) == 1)
+                    .mapToDouble(AccountEntry::getAmount)
+                    .sum();
+            //total charges
+            allChargesForThisMonth = accountEntryList.stream()
+                    .filter(e -> LocalDate.now().getMonth().equals(e.getDate().getMonth()))
+                    .filter(v -> v.getDescription().contains("charge"))
+                    .mapToDouble(AccountEntry::getAmount)
+                    .sum();
+            //total credits
+            allPaymentForThisMonth = accountEntryList.stream()
+                    .filter(e -> LocalDate.now().getMonth().equals(e.getDate().getMonth()))
+                    .filter(v -> v.getDescription().contains("payment"))
+                    .mapToDouble(AccountEntry::getAmount)
+                    .sum();
+
+            monthlyInterest = creditAccount.getBillingStrategy().getMonthlyInterest();
+            minimumPayment = creditAccount.getBillingStrategy().getMinimumPayment();
+
+            newBalance = previousBalance - allChargesForThisMonth + allChargesForThisMonth
+                    + monthlyInterest * (previousBalance - allPaymentForThisMonth);
+
+            totalDue = minimumPayment * newBalance;
+            result = String.format("The previous balance is %s , \n" +
+                    " total charges become %s , \n" +
+                    " totalCredits is %s , \n" +
+                    " new balance is %s , \n" +
+                    "total due is %s",previousBalance,allChargesForThisMonth,allPaymentForThisMonth,newBalance,totalDue);
+        }
+        return result;
     }
 
 

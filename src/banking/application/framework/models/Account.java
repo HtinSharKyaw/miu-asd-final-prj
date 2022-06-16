@@ -66,6 +66,7 @@ public abstract class Account implements Serializable, AccountObserverSubjectInt
         return balance;
     }
 
+    //this will work as charging in credit card
     public Double withdrawMoney(Double withDrawMoney) {
         balance -= withDrawMoney;
         //call the method after the balance operation of

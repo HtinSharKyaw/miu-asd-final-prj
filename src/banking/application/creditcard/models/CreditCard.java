@@ -57,6 +57,10 @@ public class CreditCard extends Account implements NotificationObserver {
         return creditCardType;
     }
 
+    public CreditCardBillingStrategy getBillingStrategy() {
+        return billingStrategy;
+    }
+
     @Override
     public void update(AccountEntry accountEntry) {
         if (accountEntry.getDescription().contains("deposit")) {
@@ -67,8 +71,6 @@ public class CreditCard extends Account implements NotificationObserver {
         } else {
             minimumPaymentAmount += billingStrategy.minimumPayment(accountEntry.getAmount());
         }
-
-
     }
 
     //for keeping track for the history of charges and payment

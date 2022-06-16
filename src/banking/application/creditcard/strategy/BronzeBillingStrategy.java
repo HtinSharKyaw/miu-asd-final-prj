@@ -4,13 +4,23 @@ public class BronzeBillingStrategy implements CreditCardBillingStrategy {
 
     @Override
     public double minimumPayment(double withdrawalAmount) {
-        return withdrawalAmount * 0.14;
+        return withdrawalAmount * getMinimumPayment();
 
     }
 
     @Override
     public double monthlyPayment(double amountOwing, double amountPaying) {
-        return (amountOwing - amountPaying) * 0.1;
+        return (amountOwing - amountPaying) * getMonthlyInterest();
+    }
+
+    @Override
+    public double getMonthlyInterest() {
+        return 0.1;
+    }
+
+    @Override
+    public double getMinimumPayment() {
+        return 0.14;
     }
 
 

@@ -1,14 +1,12 @@
 package banking.application.framework.services;
 
+import banking.application.framework.models.Account;
+
 import java.util.Collection;
 import java.util.List;
 
-import banking.application.framework.models.Account;
-import banking.application.framework.models.Customer;
-
 public interface AccountService {
     void createAccount(Account account);
-    void createCustomer(Customer customer);
     void deposit(String accountNumber,double amount, String description);
     void withdraw(String accountNumber,double amount );
     Collection<Account> getAllAccounts();
